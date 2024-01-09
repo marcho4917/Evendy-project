@@ -1,0 +1,17 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+
+        <div class="content-section">
+            <div class="card-group">
+                <div class="card">
+                    <img class="card-img-top" src="{{ event.image.url }}">
+                    <div class="card-body">
+                        <h5 class="card-title">Event name</h5>
+                        <p class="card-text">Event date</p>
+                        <p class="card-text">Event time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
