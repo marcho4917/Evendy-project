@@ -1,10 +1,12 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
-{% for event in object_list %}
-      <div class="card mb-3" style="max-width: 540px;">
+<div class="row">
+  {% for event in object_list %}
+    <div class="col-md-6 mb-4">
+      <div class="card" style="width: 100%;">
         <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{{ event.image.url }}" class="img-fluid rounded-start" alt="event photo">
+          <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <img src="{{ event.image.url }}" class="img-fluid rounded-start object-fit-cover" style="max-height: 200px;" alt="event photo">
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -17,5 +19,7 @@
           </div>
         </div>
       </div>
-{% endfor %}
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}

@@ -1,11 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm
-from .models import Event, Profile
+from .models import Event
 from django.views.generic.list import ListView
-
-
-def evendy_home(request):
-    return render(request, 'evendy/events_list.html', {'events': Event.objects.all()}) #do wyswietlania kart z eventami na stronie glownej
 
 
 def register(request):
@@ -20,6 +17,7 @@ def register(request):
     return render(request, 'evendy/register.html', {'form': form})
 
 
+@login_required
 def profile(request):
     return render(request, 'evendy/profile.html')
 
@@ -31,6 +29,7 @@ def event_details(request):
 class EventListView(ListView):
     model = Event
     template_name = 'evendy/events_list.html'
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context["now"] = timezone.now()

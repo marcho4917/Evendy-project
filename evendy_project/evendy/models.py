@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
-
+from PIL import Image
 
 class Event(models.Model):
     title = models.CharField(max_length=100)
@@ -11,6 +11,16 @@ class Event(models.Model):
     image = models.ImageField(default='event_pics/event_default.jpg', upload_to='event_pics')
     #attends_looking_for_company = models.ManyToManyField(Profile, through='UserPlannedEvent')
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -18,6 +28,16 @@ class Profile(models.Model):
     profile_image = models.ImageField(default='profile_pics/profile_default.jpg', upload_to='profile_pics')
     user_planned_events = models.ManyToManyField(Event, through='UserPlannedEvent')
     #user_friends_from_events =
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.profile_image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.profile_image.path)
 
     @property
     def calculated_age(self):
