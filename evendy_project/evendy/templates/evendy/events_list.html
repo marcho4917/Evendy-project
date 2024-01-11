@@ -1,0 +1,21 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+{% for event in object_list %}
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ event.image.url }}" class="img-fluid rounded-start" alt="event photo">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Title:{{ event.title }}</h5>
+              <p class="card-text">Date:{{ event.date }}</p>
+              <p class="card-text">Time:{{ event.time }}</p>
+              <p class="card-text">Place: {{ event.place }}</p>
+              <a href="{% url 'event_details' %}" class="btn btn-primary">Show more</a>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+{% endblock %}

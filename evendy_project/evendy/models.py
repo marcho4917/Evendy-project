@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
-from PIL import Image
 
 
 class Event(models.Model):
@@ -9,14 +8,14 @@ class Event(models.Model):
     date = models.DateField()
     time = models.TimeField()
     place = models.CharField(max_length=250)
-    image = models.ImageField(default='event_default.jpg', upload_to='event_pics')
-    # attends_looking_for_company = models.ManyToManyField()
+    image = models.ImageField(default='event_pics/event_default.jpg', upload_to='event_pics')
+    #attends_looking_for_company = models.ManyToManyField(Profile, through='UserPlannedEvent')
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
-    profile_image = models.ImageField(default='profile_default.jpg', upload_to='profile_pics')
+    profile_image = models.ImageField(default='profile_pics/profile_default.jpg', upload_to='profile_pics')
     user_planned_events = models.ManyToManyField(Event, through='UserPlannedEvent')
     #user_friends_from_events =
 
