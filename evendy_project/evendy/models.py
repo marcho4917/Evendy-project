@@ -24,7 +24,7 @@ class Event(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=True)
     profile_image = models.ImageField(default='profile_pics/profile_default.jpg', upload_to='profile_pics')
     user_planned_events = models.ManyToManyField(Event, through='UserPlannedEvent')
     #user_friends_from_events =

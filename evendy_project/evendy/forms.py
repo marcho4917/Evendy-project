@@ -4,8 +4,7 @@ from django import forms
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'date_of_birth', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2']

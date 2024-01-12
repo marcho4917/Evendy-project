@@ -8,7 +8,7 @@ import datetime
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, date_of_birth=datetime.date.today())
+        Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
