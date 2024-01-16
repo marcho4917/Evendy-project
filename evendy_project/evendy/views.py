@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Event
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib import messages
 
 
@@ -22,11 +23,25 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, 'evendy/profile.html')
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile been updated')
+            return redirect('profile')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    return render(request, 'evendy/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-def event_details(request):
-    return render(request, 'evendy/event_details.html')
+class EventDetailsView(DetailView):
+    model = Event
+    template_name = 'evendy/event_details.html'
 
 
 class EventListView(ListView):
@@ -37,3 +52,38 @@ class EventListView(ListView):
     #     context = super().get_context_data(**kwargs)
     #     context["now"] = timezone.now()
     #     return context
+
+
+# def add_user_to_seekers_base(request, event_id):
+#     if request.method == 'POST':
+#         event = Event.objects.get(pk=event_id)
+#         event.attendees_looking_for_company.add(request.user.profile)
+#         messages.success(request, f"Congrats, now just wait for your buddy")
+#
+#     return redirect('event_details', pk=event_id)
+#
+#
+# @login_required
+# def delete_from_seekers(request, event_id):
+#     if request.method == 'POST':
+#         event = Event.objects.get(pk=event_id)
+#         event.attendees_looking_for_company.remove(request.user.profile)
+#         messages.success(request, f"No longer looking for a buddy for this event")
+#
+#     return redirect('event_details', pk=event_id)
+
+
+@login_required
+def add_or_remove_user_from_seekers(request, event_id):
+    if request.method == 'POST':
+        event = Event.objects.get(pk=event_id)
+        action = request.POST.get('action')
+
+        if action == 'add':
+            event.attendees_looking_for_company.add(request.user.profile)
+            messages.success(request, f"Congrats, now just wait for your buddy")
+        elif action == 'remove':
+            event.attendees_looking_for_company.remove(request.user.profile)
+            messages.success(request, f"No longer looking for a buddy for this event")
+
+    return redirect('event_details', pk=event_id)

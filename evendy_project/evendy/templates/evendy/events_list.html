@@ -14,7 +14,7 @@
               <p class="card-text">Date:{{ event.date }}</p>
               <p class="card-text">Time:{{ event.time }}</p>
               <p class="card-text">Place: {{ event.place }}</p>
-              <a href="{% url 'event_details' %}" class="btn btn-primary">Show more</a>
+              <a href="{% url 'event_details' event.id %}" class="btn btn-primary">Show more</a>
             </div>
           </div>
         </div>

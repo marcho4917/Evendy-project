@@ -6,8 +6,10 @@
     <img class="rounded-circle account-img" src="{{ user.profile.profile_image.url }}" alt="profile_pic">
     <div class="media-body">
         <h2 class="account-heading">{{ user.username }}</h2>
-        <p class="text-secondaty">{{ user.email }}</p>
         <p>Age: {{ user.profile.calculated_age }}</p>
+        {% if  user.profile.description %}
+            <p>About you: {{ user.profile.description }}</p>
+        {% endif %}
     </div>
   </div>
   <form method="POST" enctype="multipart/form-data">
@@ -17,6 +19,9 @@
                 {{ user_form|crispy }}
                 {{ profile_form|crispy }}
             </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
   </form>
 </div>
 {% endblock %}
