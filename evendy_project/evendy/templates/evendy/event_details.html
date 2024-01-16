@@ -20,10 +20,15 @@
                         <button type="button" class="btn btn-primary" disabled>I'm looking for buddy for this event</button>
                     {% endif %}
                 </form>
-                <h5>Who is looking for buddy for this event: </h5>
-                {% for profile in event.attendees_looking_for_company.all %}
-                    <p>{{ profile.user.username }}</p>
-                {% endfor %}
+                <h5>Who is looking for a buddy for this event:</h5>
+                    {% for profile in event.attendees_looking_for_company.all %}
+                        <img class="rounded-circle profile-img" src="{{ profile.profile_image.url }}">
+                        <p>{{ profile.user.username }}, ({{ profile.calculated_age }})</p>
+                        {% if user.is_authenticated and user.profile != profile %}
+                            <button type="submit" class="btn btn-info">Start chat</button>
+                            <button type="submit" class="btn btn-success">Go together</button>
+                        {% endif %}
+                    {% endfor %}
             </div>
         </div>
 {% endblock %}
