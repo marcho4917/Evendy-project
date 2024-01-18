@@ -81,9 +81,16 @@ def add_or_remove_user_from_seekers(request, event_id):
 
         if action == 'add':
             event.attendees_looking_for_company.add(request.user.profile)
-            messages.success(request, f"Congrats, now just wait for your buddy")
+            messages.success(request, f"Congrats, now just wait for your buddy !")
         elif action == 'remove':
             event.attendees_looking_for_company.remove(request.user.profile)
-            messages.success(request, f"No longer looking for a buddy for this event")
+            messages.success(request, f"You are no longer looking for a buddy for this event")
 
     return redirect('event_details', pk=event_id)
+
+
+def search_events(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
+        events = Event.objects.filter(title__contains=searched)
+        return render(request, 'evendy/search_events.html', {'searched': searched, 'events': events})

@@ -1,0 +1,11 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+    {% if searched %}
+        <h1>Results for searching {{ searched }}</h1>
+        {% for event in events %}
+            <a href="{% url 'event_details' event.id %}">{{ event.title }}</a>
+        {% endfor %}
+    {% else %}
+        <h1>You forgot to search for event !</h1>
+    {% endif %}
+{% endblock %}
