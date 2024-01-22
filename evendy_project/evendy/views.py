@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Event, Profile
+from .models import Event
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib import messages
@@ -77,10 +77,4 @@ def search_events(request):
         searched = request.POST.get('searched')
         events = Event.objects.filter(title__contains=searched)
         return render(request, 'evendy/search_events.html', {'searched': searched, 'events': events})
-
-
-def profile_details(request, user_id):
-    profile = Profile.objects.get(user=user_id)
-
-    return render(request, 'evendy/profile_details.html', {'profile': profile})
 
