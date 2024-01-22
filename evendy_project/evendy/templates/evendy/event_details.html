@@ -26,7 +26,10 @@
                         <h5 class="card-title">{{ profile.user.username }}</h5>
                         <p class="card-text">{{ profile.calculated_age }}</p>
                         {% if user.is_authenticated and user.profile != profile %}
+                        <form method="POST" action="{% url 'profile_details' profile.user.id %}">
+                            {% csrf_token %}
                             <button type="submit" class="btn btn-primary btn-block btn-sm mb-2">View profile</button>
+                        </form>
                             <button type="submit" class="btn btn-info btn-block btn-sm mb-2">Start chat</button>
                             <button type="submit" class="btn btn-success btn-block btn-sm">Go together</button>
                         {% endif %}
