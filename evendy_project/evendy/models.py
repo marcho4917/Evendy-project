@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+from django.utils import timezone
 from PIL import Image
 
 
@@ -52,3 +53,12 @@ class Event(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+class Invitation(models.Model):
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inv_sender')
+    recipient = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inv_recipient')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    is_accepted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
+

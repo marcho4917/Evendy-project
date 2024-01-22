@@ -83,3 +83,4 @@ def profile_details(request, user_id):
     profile = Profile.objects.get(user=user_id)
 
     return render(request, 'evendy/profile_details.html', {'profile': profile})
+
