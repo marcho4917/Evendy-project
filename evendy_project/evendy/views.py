@@ -54,37 +54,20 @@ class EventListView(ListView):
     #     return context
 
 
-# def add_user_to_seekers_base(request, event_id):
-#     if request.method == 'POST':
-#         event = Event.objects.get(pk=event_id)
-#         event.attendees_looking_for_company.add(request.user.profile)
-#         messages.success(request, f"Congrats, now just wait for your buddy")
-#
-#     return redirect('event_details', pk=event_id)
-#
-#
-# @login_required
-# def delete_from_seekers(request, event_id):
-#     if request.method == 'POST':
-#         event = Event.objects.get(pk=event_id)
-#         event.attendees_looking_for_company.remove(request.user.profile)
-#         messages.success(request, f"No longer looking for a buddy for this event")
-#
-#     return redirect('event_details', pk=event_id)
-
-
-@login_required
 def add_or_remove_user_from_seekers(request, event_id):
     if request.method == 'POST':
         event = Event.objects.get(pk=event_id)
         action = request.POST.get('action')
 
-        if action == 'add':
-            event.attendees_looking_for_company.add(request.user.profile)
-            messages.success(request, f"Congrats, now just wait for your buddy !")
-        elif action == 'remove':
-            event.attendees_looking_for_company.remove(request.user.profile)
-            messages.success(request, f"You are no longer looking for a buddy for this event")
+        if request.user.is_authenticated:
+            if action == 'add':
+                event.attendees_looking_for_company.add(request.user.profile)
+                messages.success(request, f"Congrats, now just wait for your buddy!")
+            elif action == 'remove':
+                event.attendees_looking_for_company.remove(request.user.profile)
+                messages.success(request, f"You are no longer looking for a buddy for this event")
+        else:
+            messages.warning(request, "You have to be logged in.")
 
     return redirect('event_details', pk=event_id)
 
@@ -94,3 +77,4 @@ def search_events(request):
         searched = request.POST.get('searched')
         events = Event.objects.filter(title__contains=searched)
         return render(request, 'evendy/search_events.html', {'searched': searched, 'events': events})
+

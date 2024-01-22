@@ -9,15 +9,10 @@
                 <p class="card-text">{{ object.time }}</p>
                 <form method="POST" action="{% url 'add_or_remove_user_from_seekers' event.id %}">
                     {% csrf_token %}
-                    {% if user.is_authenticated %}
-                            {% if user.profile in event.attendees_looking_for_company.all %}
-                                <button type="submit" class="btn btn-danger" name="action" value="remove">Delete me from this event</button>
-                            {% else %}
-                                <button type="submit" class="btn btn-primary" name="action" value="add">I'm looking for buddy for this event</button>
-                            {% endif %}
+                    {% if user.profile in event.attendees_looking_for_company.all %}
+                        <button type="submit" class="btn btn-danger" name="action" value="remove">Delete me from this event</button>
                     {% else %}
-                        <p>You have to be logged in to start lookig for buddy for this event</p>
-                        <button type="button" class="btn btn-primary" disabled>I'm looking for buddy for this event</button>
+                        <button type="submit" class="btn btn-primary" name="action" value="add">I'm looking for buddy for this event</button>
                     {% endif %}
                 </form>
                 <div class="container">
