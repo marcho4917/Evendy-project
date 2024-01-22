@@ -1,0 +1,13 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+    <ul>
+        {% if events %}
+            <li>Name: {{ events.10.title }}</li>
+            <li>Date: {{ events.10.date }}</li>
+            <li>Time: {{ events.10.time }}</li>
+            <li>Place: {{ events.10.place }}</li>
+         {% else %}
+        <li>NONE</li>
+        {% endif %}
+    </ul>
+{% endblock %}
