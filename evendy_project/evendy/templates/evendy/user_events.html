@@ -1,0 +1,11 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+ <h1>My events:</h1>
+     <ul>
+      {% for planned_event in planned_events %}
+        <li>
+          <a href="{% url 'event_details' planned_event.id %}">{{ planned_event.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+{% endblock %}

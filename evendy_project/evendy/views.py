@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Event, Profile
+from .models import Event, Profile, UserPlannedEvent
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib import messages
@@ -61,9 +61,11 @@ def add_or_remove_user_from_seekers(request, event_id):
 
         if request.user.is_authenticated:
             if action == 'add':
+                UserPlannedEvent.objects.create(profile=request.user.profile, event=event)
                 event.attendees_looking_for_company.add(request.user.profile)
                 messages.success(request, f"Congrats, now just wait for your buddy!")
             elif action == 'remove':
+                UserPlannedEvent.objects.filter(profile=request.user.profile, event=event).delete()
                 event.attendees_looking_for_company.remove(request.user.profile)
                 messages.success(request, f"You are no longer looking for a buddy for this event")
         else:
@@ -83,3 +85,10 @@ def profile_details(request, user_id):
     profile = Profile.objects.get(user=user_id)
 
     return render(request, 'evendy/profile_details.html', {'profile': profile})
+
+
+def show_my_events(request):
+    user_profile = request.user.profile
+    planned_events = user_profile.user_planned_events.all()
+
+    return render(request, 'evendy/user_events.html', {'planned_events': planned_events})
