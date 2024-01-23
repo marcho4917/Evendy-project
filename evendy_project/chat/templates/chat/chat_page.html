@@ -1,0 +1,15 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+    <h1>Select user you want to chat with</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <select id="users" name="users">
+            {% for receiver in users %}
+                <option value="{{ receiver.id }}">
+                    <p>{{ receiver.username }}</p>
+                </option>
+            {% endfor %}
+        </select>
+        <button class="btn" type="submit">Chat</button>
+    </form>
+{% endblock %}

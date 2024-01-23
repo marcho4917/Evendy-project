@@ -32,8 +32,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'evendy.apps.EvendyConfig',
     'evendy_api.apps.EvendyApiConfig',
+    'chat.apps.ChatConfig',
     'crispy_forms',
     'crispy_bootstrap4',
     'django.contrib.auth',
@@ -41,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin'
+    'django.contrib.admin',
+
 ]
 
 MIDDLEWARE = [
@@ -73,7 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'evendy_project.wsgi.application'
-
+ASGI_APPLICATION = 'evendy_project.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -137,3 +141,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'events_list'
 
 LOGIN_URL = 'login'
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
