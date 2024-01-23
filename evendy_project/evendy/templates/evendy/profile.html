@@ -1,27 +1,35 @@
 {% extends 'evendy/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
-  <div class="media">
-    <img class="rounded-circle account-img" src="{{ user.profile.profile_image.url }}" alt="profile_pic">
-    <div class="media-body">
-        <h2 class="account-heading">{{ user.username }}</h2>
-        <p>Age: {{ user.profile.calculated_age }}</p>
-        {% if  user.profile.description %}
-            <p>About you: {{ user.profile.description }}</p>
-        {% endif %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="content-section">
+            <img class="rounded-circle account-img" src="{{ user.profile.profile_image.url }}" alt="profile_pic">
+        </div>
     </div>
-  </div>
-  <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Profile info</legend>
-                {{ user_form|crispy }}
-                {{ profile_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button>
+    <div class="col-md-6">
+        <div class="content-section">
+            <div class="media">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p>Age: {{ user.profile.calculated_age }}</p>
+                    {% if user.profile.description %}
+                        <p>About you: {{ user.profile.description }}</p>
+                    {% endif %}
+                </div>
             </div>
-  </form>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Profile info</legend>
+                    {{ user_form|crispy }}
+                    {{ profile_form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
