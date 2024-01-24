@@ -1,0 +1,12 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+{% for notice in object_list %}
+    <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">From:{{ notice.sender }}</h5>
+                  <p class="card-text">{{ notice.verb }} for {{ notice.event_name }}</p>
+                  <p class="card-text">{{ notice.created_at }}</p>
+                </div>
+    </div>
+  {% endfor %}
+{% endblock %}
