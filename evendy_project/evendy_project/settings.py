@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'notifications',
     'evendy.apps.EvendyConfig',
     'evendy_api.apps.EvendyApiConfig',
     'crispy_forms',
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'notifications',
+
 ]
 
 MIDDLEWARE = [

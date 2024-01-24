@@ -1,0 +1,12 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+ <h1>My invites:</h1>
+     <ul>
+      {% for invite in user_invites %}
+        <li>
+            <p>From: {{ invite.sender }}</p>
+            <p>For this event: {{ invite.event }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+{% endblock %}

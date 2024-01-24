@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Event, Profile, UserPlannedEvent
+from .models import Event, Profile, UserPlannedEvent, Invitation
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib import messages
+from notifications.signals import notify
 
 
 def register(request):
@@ -92,3 +93,32 @@ def show_my_events(request):
     planned_events = user_profile.user_planned_events.all()
 
     return render(request, 'evendy/user_events.html', {'planned_events': planned_events})
+
+
+def show_my_invites(request):
+    user_profile = request.user.profile
+    user_invites = user_profile.user_invitations.all()
+
+    return render(request, 'evendy/user_invites.html', {'user_invites': user_invites})
+
+
+def invite_to_event(request, event_id, invited_user_id):
+    if request.method == 'POST':
+        event = Event.objects.get(pk=event_id)
+        invited_user = Profile.objects.get(user=invited_user_id)
+        user_sending_invite = request.user.profile
+
+        invitation = Invitation.objects.create(
+            sender=user_sending_invite,
+            recipient=invited_user,
+            event=event,
+        )
+        invitation.save()
+        messages.success(request, f"You just invite { invited_user.name } to this event")
+
+    return redirect('event_details', pk=event_id)
+
+
+
+
+

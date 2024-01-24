@@ -13,7 +13,9 @@ urlpatterns = [
     path('event-details/<int:event_id>/add-or-delete', evendy_views.add_or_remove_user_from_seekers, name='add_or_remove_user_from_seekers'),
     path('search-events/', evendy_views.search_events, name='search_events'),
     path('profile-details/<int:user_id>', evendy_views.profile_details, name='profile_details'),
-    path('my-events/', evendy_views.show_my_events, name='show_my_events')
+    path('my-events/', evendy_views.show_my_events, name='show_my_events'),
+    path('invite-to-event/<int:event_id>/<int:invited_user_id>', evendy_views.invite_to_event, name='invite_to_event'),
+    path('my-invites/', evendy_views.show_my_invites, name='show_my_invites')
 ]
 
 
