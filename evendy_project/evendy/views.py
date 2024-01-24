@@ -114,7 +114,8 @@ def invite_to_event(request, event_id, invited_user_id):
             event=event,
         )
         invitation.save()
-        messages.success(request, f"You just invite { invited_user.name } to this event")
+        invited_user.user_invitations.add(invitation)
+        messages.success(request, f"You just invite { invited_user.user.username } to this event")
 
     return redirect('event_details', pk=event_id)
 
