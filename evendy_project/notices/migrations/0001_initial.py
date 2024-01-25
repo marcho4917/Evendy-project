@@ -9,10 +9,6 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('evendy', '0009_remove_invitation_event_remove_invitation_recipient_and_more'),
-    ]
-
     operations = [
         migrations.CreateModel(
             name='Invitation',
