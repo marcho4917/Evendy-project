@@ -47,11 +47,7 @@ class EventDetailsView(DetailView):
 class EventListView(ListView):
     model = Event
     template_name = 'evendy/events_list.html'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["now"] = timezone.now()
-    #     return context
+    paginate_by = 8
 
 
 def add_or_remove_user_from_seekers(request, event_id):
