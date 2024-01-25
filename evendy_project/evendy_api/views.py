@@ -9,7 +9,6 @@ def events_list(request):
     response = requests.get(url)
     events_data = response.json()
 
-
     for event_data in events_data.get('_embedded', {}).get('events', []):
         Event.objects.create(
             title=event_data.get('name', ''),
