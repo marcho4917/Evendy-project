@@ -23,6 +23,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('evendy.urls')),
-    path('', include('notices.urls')),
-    #path('api/', include('evendy_api.urls')),
+    path('', include('notices.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

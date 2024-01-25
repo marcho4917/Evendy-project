@@ -47,7 +47,7 @@ class EventDetailsView(DetailView):
 
 class EventListView(ListView):
     model = Event
-    template_name = 'evendy/events_list.html'
+    template_name = 'evendy_api/evendy_api.html'
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

@@ -29,6 +29,7 @@
                     <a class="nav-item nav-link" href="{% url 'profile' %}">My Profile</a>
                     <a class="nav-item nav-link" href="{% url 'show_my_events' %}">My Events</a>
                     <a class="nav-item nav-link" href="{% url 'notices_list' %}">My Notices</a>
+                <a class="nav-item nav-link" href="{% url 'invites_list' %}">My Invites</a>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn-link btn">Logout</button>

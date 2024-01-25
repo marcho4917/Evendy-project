@@ -1,0 +1,14 @@
+{% extends 'evendy/base.html' %}
+{% block content %}
+ <h1>My invites:</h1>
+     <ul>
+      {% for invite in object_list %}
+        <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">From: {{ invite.sender }}, to this event: {{ invite.event }}</h5>
+                    <p class="card-text">{{ invite.created_at }}</p>
+                </div>
+    </div>
+      {% endfor %}
+    </ul>
+{% endblock %}
