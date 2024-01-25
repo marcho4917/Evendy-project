@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
-from django.utils import timezone
 from PIL import Image
 
 
@@ -11,6 +10,12 @@ class Profile(models.Model):
     profile_image = models.ImageField(default='profile_pics/profile_default.jpg', upload_to='profile_pics')
     description = models.TextField(blank=True)
     user_planned_events = models.ManyToManyField('Event', through='UserPlannedEvent')
+    user_notices = models.ManyToManyField('notices.Notice', related_name='user_notices', blank=True)
+    user_invitations = models.ManyToManyField('notices.Invitation', related_name='user_invitations', blank=True)
+
+    def __str__(self):
+        return f'{self.user}'
+
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -44,6 +49,10 @@ class Event(models.Model):
     image = models.ImageField(default='event_pics/event_default.jpg', upload_to='event_pics')
     attendees_looking_for_company = models.ManyToManyField(Profile, related_name='events_who_is_looking_for_company')
 
+    def __str__(self):
+        return f'{self.title}'
+
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -55,10 +64,4 @@ class Event(models.Model):
             img.save(self.image.path)
 
 
-class Invitation(models.Model):
-    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inv_sender')
-    recipient = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inv_recipient')
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    is_accepted = models.BooleanField(default=False)
-    created_at = models.DateTimeField(default=timezone.now)
 
