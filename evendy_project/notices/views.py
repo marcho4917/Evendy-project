@@ -39,6 +39,7 @@ def send_invite(request, event_id, profile_id):
         message = f'{sender.user.username} want go with you to this event: {event.title}'
 
         Notice.objects.create(
+            recipient=recipient,
             content_type=content_type,
             content_id=content_id,
             content_text=message

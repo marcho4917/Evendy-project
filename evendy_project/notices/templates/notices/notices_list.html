@@ -1,6 +1,14 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
-{% for notice in object_list %}
-    {{ notice }}
-  {% endfor %}
+ <h1>My notifications:</h1>
+     <ul>
+      {% for notice in object_list %}
+        <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ notice.content_text}}</h5>
+                    <p class="card-text">{{ invite.created_at }}</p>
+                </div>
+    </div>
+      {% endfor %}
+    </ul>
 {% endblock %}

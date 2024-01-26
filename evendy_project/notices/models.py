@@ -17,6 +17,7 @@ class Notice(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
     content_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'content_id')
+    recipient = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='notice_recipient', null=True)
     content_text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
