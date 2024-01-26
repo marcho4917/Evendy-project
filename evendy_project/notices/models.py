@@ -14,10 +14,9 @@ class Invitation(models.Model):
 
 
 class Notice(models.Model):
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    content_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
+    content_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'content_id')
-    message = models.TextField()
+    content_text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
-
 
