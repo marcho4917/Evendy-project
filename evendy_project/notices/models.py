@@ -1,6 +1,8 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils import timezone
 from django.db import models
 from evendy.models import Profile, Event
+from django.contrib.contenttypes.models import ContentType
 
 
 class Invitation(models.Model):
@@ -12,13 +14,10 @@ class Invitation(models.Model):
 
 
 class Notice(models.Model):
-    # 1 invitation received
-    # 2 invite accepted
-    # 3 invite declined
-#     content_type =  ContentType.object.get(app_label='evendy.Event')
-#     content_id = 2
-#     content_object = self.content_type.objects.get(id=2)
-#     message =  TextField()
-#     created_at = models.DateTimeField(default=timezone.now)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'content_id')
+    message = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
 
 
