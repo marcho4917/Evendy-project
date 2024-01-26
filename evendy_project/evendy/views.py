@@ -45,11 +45,11 @@ class EventDetailsView(DetailView):
     template_name = 'evendy/event_details.html'
 
 
-class EventListView(ListView):
-    model = Event
-
-    template_name = 'evendy/events_list.html'
-    paginate_by = 8
+# class EventListView(ListView):
+#     model = Event
+#
+#     template_name = 'evendy_api/evendy_api.html'
+#     paginate_by = 8
 
 
 def add_or_remove_user_from_seekers(request, event_id):

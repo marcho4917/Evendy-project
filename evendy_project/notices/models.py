@@ -12,11 +12,9 @@ class Invitation(models.Model):
 
 
 class Notice(models.Model):
-
-    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='notice_sender')
-    recipient = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='notice_recipient')
-    verb = models.TextField()
-    event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    # 1 invitation received
+    # 2 invite accepted
+    # 3 invite declined
 #     content_type =  ContentType.object.get(app_label='evendy.Event')
 #     content_id = 2
 #     content_object = self.content_type.objects.get(id=2)

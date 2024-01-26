@@ -1,13 +1,45 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
-    <ul>
-        {% if events %}
-            <li>Name: {{ events.10.title }}</li>
-            <li>Date: {{ events.10.date }}</li>
-            <li>Time: {{ events.10.time }}</li>
-
-         {% else %}
-        <li>NONE</li>
-        {% endif %}
-    </ul>
+      <form class="d-flex" method="POST" action="{% url 'search_events' %}" role="search">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search Events" name="searched"  aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+<div class="row">
+  {% for event in page_obj %}
+      <div class="col-md-6 mb-4">
+      <div class="card" style="width: 100%;">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <img src="{{ event.image.url }}" class="img-fluid rounded-start object-fit-cover" style="max-height: 200px;" alt="event photo">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Title:{{ event.title }}</h5>
+              <p class="card-text">Date:{{ event.date }}</p>
+              <p class="card-text">Time:{{ event.time }}</p>
+              <p class="card-text">Place: {{ event.place }}</p>
+              <a href="{% url 'event_details' event.id %}" class="btn btn-outline-dark mt-auto">Show more</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+      {% if page_obj.has_previous %}
+          <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
+          <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+              <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+          <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number}}">Next</a>
+          <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+      {% endif %}
 {% endblock %}
