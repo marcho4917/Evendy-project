@@ -2,13 +2,34 @@
 {% block content %}
  <h1>My invites:</h1>
      <ul>
-      {% for invite in object_list %}
-        <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">From: {{ invite.sender }}, to this event: {{ invite.event }}</h5>
-                    <p class="card-text">{{ invite.created_at }}</p>
+         {% if invite in object_list%}
+             {% for invite in object_list %}
+             {% if invite.is_accepted == False %}
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">From: <a href="{% url 'profile_details' invite.sender.user.id %}">{{ invite.sender }}</a>, to this event: {{ invite.event }}</h5>
+                        <p class="card-text">{{ invite.created_at }}</p>
+                        <form method="POST" action="{% url 'accept_or_decline_invitation' invite.id invite.sender.id invite.event.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" name="action" value="accept">Accept</button>
+                            <button type="submit" class="btn btn-danger" name="action" value="decline">Decline</button>
+                        </form>
+                    </div>
                 </div>
-    </div>
-      {% endfor %}
+             {% endif %}
+          {% endfor %}
+         {% else %}
+         <h5>You don't have invitations yet</h5>
+         {% endif %}
     </ul>
+    <div class="col-md-8">
+             <h1>Accepted:</h1>
+                <ul>
+                  {% for invite in object_list %}
+                        {% if invite.is_accepted == True  %}
+                            <h5 class="card-title">From:{{ invite.sender }}</a>, to this event: {{ invite.event }}</h5>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+    </div>
 {% endblock %}

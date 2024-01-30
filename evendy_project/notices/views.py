@@ -28,23 +28,58 @@ def send_invite(request, event_id, profile_id):
         sender = request.user.profile
         recipient = Profile.objects.get(pk=profile_id)
 
-        invitation = Invitation.objects.create(
-            sender=sender,
-            recipient=recipient,
-            event=event
-        )
+        check_if_exists = Invitation.objects.filter(sender=sender, recipient=recipient, event=event)
 
-        content_type = ContentType.objects.get_for_model(Invitation)
-        content_id = invitation.id
-        message = f'{sender.user.username} want go with you to this event: {event.title}'
+        if check_if_exists:
+            messages.warning(request, f"Invitation already sent")
+        else:
+            invitation = Invitation.objects.create(
+                sender=sender,
+                recipient=recipient,
+                event=event
+            )
 
-        Notice.objects.create(
-            recipient=recipient,
-            content_type=content_type,
-            content_id=content_id,
-            content_text=message
-        )
+            content_type = ContentType.objects.get(app_label="notices", model="invitation")
+            content_id = invitation.id
+            message = f'{sender.user.username} sent you invitation to: {event.title}'
 
-        messages.success(request, f"You just send an invitation!")
+            Notice.objects.create(
+                recipient=recipient,
+                content_type=content_type,
+                content_id=content_id,
+                content_text=message
+            )
+
+            messages.success(request, f"You just send an invitation!")
         return redirect('event_details', event_id)
+
+
+def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
+    if request.method == 'POST':
+        invitation = Invitation.objects.get(pk=invite_id)
+        action = request.POST.get('action')
+        recipient = Profile.objects.get(pk=profile_id)
+        event = Event.objects.get(pk=event_id)
+
+        if action == 'accept':
+            invitation.is_accepted = True
+            invitation.save()
+        elif action == 'decline':
+            invitation.delete()
+
+            #send notice to invitation sender
+            content_type = ContentType.objects.get(app_label="notices", model="invitation")
+            content_id = invitation.id
+            message = f'{request.user.profile}, decline your invitation to: {event.title}'
+
+            Notice.objects.create(
+                recipient=recipient,
+                content_type=content_type,
+                content_id=content_id,
+                content_text=message
+            )
+
+    return redirect('invites_list')
+
+
 
