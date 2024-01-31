@@ -2,7 +2,6 @@
 {% block content %}
  <h1>My invites:</h1>
      <ul>
-         {% if invite in object_list%}
              {% for invite in object_list %}
              {% if invite.is_accepted == False %}
                 <div class="col-md-8">
@@ -18,9 +17,6 @@
                 </div>
              {% endif %}
           {% endfor %}
-         {% else %}
-         <h5>You don't have invitations yet</h5>
-         {% endif %}
     </ul>
     <div class="col-md-8">
              <h1>Accepted:</h1>
