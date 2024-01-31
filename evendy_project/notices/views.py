@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 from .models import Notice, Invitation
-from evendy.models import Profile, Event
+from evendy.models import Profile, Event, UserPlannedEvent
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 
@@ -60,10 +60,24 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
         action = request.POST.get('action')
         recipient = Profile.objects.get(pk=profile_id)
         event = Event.objects.get(pk=event_id)
+        user_to_delete_from_attendees_looking_for_company = request.user.profile
 
         if action == 'accept':
             invitation.is_accepted = True
             invitation.save()
+            event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
+            user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
+            content_type = ContentType.objects.get(app_label="notices", model="invitation")
+            content_id = invitation.id
+            message = f'{request.user.profile}, accept your invitation to: {event.title}'
+
+            Notice.objects.create(
+                recipient=recipient,
+                content_type=content_type,
+                content_id=content_id,
+                content_text=message
+            )
+
         elif action == 'decline':
             invitation.delete()
 
