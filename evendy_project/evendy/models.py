@@ -64,4 +64,10 @@ class Event(models.Model):
             img.save(self.image.path)
 
 
+class EventCouple(models.Model):
+    profiles = models.ManyToManyField(Profile)
+    event = models.OneToOneField(Event, on_delete=models.CASCADE)
 
+    def clean(self):
+        if self.profiles.count() != 2:
+            raise ValidationError('You can relate only 2 profiles')

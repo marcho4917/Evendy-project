@@ -6,7 +6,7 @@ from evendy.models import Event
 
 
 def events_list(request):
-    url = 'https://app.ticketmaster.com/discovery/v2/events.json?countryCode=DE&classificationName=music&apikey=5JpWXsKed1J8wIO2G24nFOOzUa8ZJlCq&size=20'
+    url = 'https://app.ticketmaster.com/discovery/v2/events.json?countryCode=DE&classificationName=music&apikey=5JpWXsKed1J8wIO2G24nFOOzUa8ZJlCq'
     response = requests.get(url)
     events_data = response.json()
 

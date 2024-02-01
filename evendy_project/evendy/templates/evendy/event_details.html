@@ -1,3 +1,4 @@
+{% load evendy_custom_tags %}
 {% extends 'evendy/base.html' %}
 {% block content %}
         <div class="container-fluid">
@@ -36,6 +37,9 @@
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-success btn-block btn-sm">Go together</button>
                             </form>
+                        {% else %}
+                            <button type="submit" class="btn btn-success btn-block btn-sm" disabled>Invitation sent</button>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>

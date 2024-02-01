@@ -66,6 +66,10 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             invitation.is_accepted = True
             invitation.save()
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
+
+            sender = invitation.sender
+            Invitation.objects.filter(sender=sender, event=event).exclude(id=invitation).delete()
+
             user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
             content_type = ContentType.objects.get(app_label="notices", model="invitation")
             content_id = invitation.id
