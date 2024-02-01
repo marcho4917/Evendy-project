@@ -12,6 +12,10 @@ class Invitation(models.Model):
     is_accepted = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
 
+    # def clean(self):
+    #     if Invitation.objects.filter(recipient=user.profile, event=event, is_accepted=True):
+    #         raise ValidationError('asddDAdADadAD')
+
 
 class Notice(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)

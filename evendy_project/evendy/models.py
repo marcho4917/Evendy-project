@@ -1,3 +1,5 @@
+from django.apps import apps
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
@@ -51,7 +53,6 @@ class Event(models.Model):
 
     def __str__(self):
         return f'{self.title}'
-
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
