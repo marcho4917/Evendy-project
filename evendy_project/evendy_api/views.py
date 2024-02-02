@@ -18,11 +18,19 @@ def events_list(request):
         for venue_data in event_data['_embedded']['venues']:
             place = venue_data['city']['name']
 
+        images = event_data['images']
+
+        for image in images:
+            if image.get('ratio') == '16_9':
+                url_16_9 = image.get('url')
+                print(url_16_9)
+
             event_instance, created = Event.objects.get_or_create(
                 title=title,
                 date=date,
                 time=time,
-                place=place
+                place=place,
+                image=url_16_9
             )
 
     events = Event.objects.all()

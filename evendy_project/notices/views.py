@@ -28,30 +28,29 @@ def send_invite(request, event_id, profile_id):
         sender = request.user.profile
         recipient = Profile.objects.get(pk=profile_id)
 
-        check_if_exists = Invitation.objects.filter(sender=sender, recipient=recipient, event=event)
+        # event_couple = EventCouple.objects.create(event=event)
 
-        if check_if_exists:
-            messages.warning(request, f"Invitation already sent")
-        else:
-            invitation = Invitation.objects.create(
+        # event_couple.profiles.add(sender, recipient)
+
+        invitation = Invitation.objects.create(
                 sender=sender,
                 recipient=recipient,
                 event=event
             )
 
-            content_type = ContentType.objects.get(app_label="notices", model="invitation")
-            content_id = invitation.id
-            message = f'{sender.user.username} sent you invitation to: {event.title}'
+        content_type = ContentType.objects.get(app_label="notices", model="invitation")
+        content_id = invitation.id
+        message = f'{sender.user.username} sent you invitation to: {event.title}'
 
-            Notice.objects.create(
+        Notice.objects.create(
                 recipient=recipient,
                 content_type=content_type,
                 content_id=content_id,
                 content_text=message
             )
 
-            messages.success(request, f"You just send an invitation!")
-        return redirect('event_details', event_id)
+        messages.success(request, f"You just send an invitation!")
+    return redirect('event_details', event_id)
 
 
 def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
@@ -67,7 +66,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             invitation.save()
             sender = invitation.sender
 
-            EventCouple.objects.create(profiles=(sender, recipient), event=event)
+
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 
             Invitation.objects.filter(sender=sender, event=event).exclude(id=invitation).delete()

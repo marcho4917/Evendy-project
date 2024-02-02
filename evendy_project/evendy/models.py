@@ -48,21 +48,21 @@ class Event(models.Model):
     date = models.DateField()
     time = models.TimeField(null=True)
     place = models.CharField(max_length=250)
-    image = models.ImageField(default='event_pics/event_default.jpg', upload_to='event_pics')
+    image = models.URLField(default='event_pics/event_default.jpg')
     attendees_looking_for_company = models.ManyToManyField(Profile, related_name='events_who_is_looking_for_company')
 
     def __str__(self):
         return f'{self.title}'
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        img = Image.open(self.image.path)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #
+    #     img = Image.open(self.image.path)
+    #
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
 
 class EventCouple(models.Model):

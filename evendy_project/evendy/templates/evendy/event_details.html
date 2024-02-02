@@ -1,5 +1,5 @@
-{% load evendy_custom_tags %}
 {% extends 'evendy/base.html' %}
+{% load evendy_custom_tags %}
 {% block content %}
         <div class="container-fluid">
             <img src="{{ event.image.url }}" class="card-img-top" alt="event_image" style="max-height: 200px;">
@@ -32,7 +32,7 @@
                             <button type="submit" class="btn btn-primary btn-block btn-sm mb-2">View profile</button>
                         </form>
                             <button type="submit" class="btn btn-info btn-block btn-sm mb-2">Start chat</button>
-                        {% if not couple_exists user.profile profile event %}
+                        {% if not couple_exists and user.profile and profile and event %}
                             <form method="POST" action="{% url 'send_invite' event.id profile.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-success btn-block btn-sm">Go together</button>
