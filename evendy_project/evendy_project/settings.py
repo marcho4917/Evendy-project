@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'evendy.apps.EvendyConfig',
     'evendy_api.apps.EvendyApiConfig',
+    'evendy.templatetags',
     'crispy_forms',
     'crispy_bootstrap4',
     'django.contrib.auth',
