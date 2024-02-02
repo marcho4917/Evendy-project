@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 from .models import Notice, Invitation
-from evendy.models import Profile, Event, UserPlannedEvent
+from evendy.models import Profile, Event, UserPlannedEvent, EventCouple
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 
@@ -65,9 +65,11 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
         if action == 'accept':
             invitation.is_accepted = True
             invitation.save()
+            sender = invitation.sender
+
+            EventCouple.objects.create(profiles=(sender, recipient), event=event)
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 
-            sender = invitation.sender
             Invitation.objects.filter(sender=sender, event=event).exclude(id=invitation).delete()
 
             user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
