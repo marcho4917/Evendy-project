@@ -28,10 +28,6 @@ def send_invite(request, event_id, profile_id):
         sender = request.user.profile
         recipient = Profile.objects.get(pk=profile_id)
 
-        # event_couple = EventCouple.objects.create(event=event)
-
-        # event_couple.profiles.add(sender, recipient)
-
         invitation = Invitation.objects.create(
                 sender=sender,
                 recipient=recipient,
@@ -66,14 +62,12 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             invitation.save()
             sender = invitation.sender
 
+            event_couple = EventCouple.objects.create(event=event)
+            event_couple.profiles.add(user1=sender, user2=recipient)
 
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 
             Invitation.objects.filter(sender=sender, event=event).exclude(id=invitation).delete()
-
-            event_couple = EventCouple.objects.create(event=event)
-            event_couple.profiles.add(sender, recipient)
-            # event_couple.profiles.set([sender, recipient])
 
             user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
             content_type = ContentType.objects.get(app_label="notices", model="invitation")

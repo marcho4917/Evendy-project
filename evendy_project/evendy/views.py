@@ -4,8 +4,6 @@ from django.urls import reverse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Event, Profile, UserPlannedEvent
 from notices.models import Invitation
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from django.contrib import messages
 
 
@@ -41,16 +39,10 @@ def profile(request):
     return render(request, 'evendy/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-class EventDetailsView(DetailView):
-    model = Event
-    template_name = 'evendy/event_details.html'
+def event_details(request, event_id):
+    event = Event.objects.get(pk=event_id)
 
-
-# class EventListView(ListView):
-#     model = Event
-#
-#     template_name = 'evendy_api/evendy_api.html'
-#     paginate_by = 8
+    return render(request, 'evendy/event_details.html', {'event': event})
 
 
 def add_or_remove_user_from_seekers(request, event_id):
@@ -73,7 +65,7 @@ def add_or_remove_user_from_seekers(request, event_id):
         else:
             messages.warning(request, "You have to be logged in.")
 
-    return redirect('event_details', pk=event_id)
+    return redirect('event_details', event_id=event_id)
 
 
 def search_events(request):

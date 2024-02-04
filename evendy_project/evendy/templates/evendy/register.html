@@ -1,16 +1,18 @@
 {% extends 'evendy/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content section">
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Register, and start looking friends for the events !</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
-            </div>
-        </form>
+    <div class="content section mt-5">
+        <div class="rounded p-4 mx-auto" style="background-color: white; max-width: 400px;">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4 text-purple">Register, and start looking friends for events !</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}
