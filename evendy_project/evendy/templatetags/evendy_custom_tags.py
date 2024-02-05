@@ -3,9 +3,7 @@ from evendy.models import EventCouple
 
 register = template.Library()
 
-
-def couple_exists(sender, recipient, event):
-    couple_to_check = EventCouple.objects.filter(profiles=(sender, recipient), event=event).exists()
-
-    return couple_to_check
+@register.simple_tag
+def couple_exists(user1, user2, event):
+    return EventCouple.objects.filter(profiles=(user1, user2), event=event).exists()
 
