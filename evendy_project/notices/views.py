@@ -6,13 +6,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 
 
-class NoticesListView(ListView):
-    model = Notice
-    template_name = 'notices/notices_list.html'
+def notices_list(request):
+    notices_for_user = Notice.objects.filter(recipient=request.user.profile)
 
-    def get_queryset(self):
-        return Notice.objects.filter(recipient=self.request.user.profile)
-
+    return render(request, 'notices/notices_list.html', {'notices_for_user': notices_for_user})
 
 class InvitesListView(ListView):
     model = Invitation
@@ -64,6 +61,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
 
             event_couple = EventCouple.objects.create(event=event)
             event_couple.profiles.add(sender, recipient)
+            event_couple.save()
 
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 

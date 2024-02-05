@@ -2,7 +2,7 @@
 {% block content %}
  <h1>My notifications:</h1>
      <ul>
-      {% for notice in object_list %}
+      {% for notice in notices_for_user %}
         <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title">{{ notice.content_text}}</h5>
