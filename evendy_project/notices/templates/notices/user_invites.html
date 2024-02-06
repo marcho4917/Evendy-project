@@ -2,7 +2,7 @@
 {% block content %}
  <h1>My invites:</h1>
      <ul>
-             {% for invite in object_list %}
+             {% for invite in invites_for_user %}
              {% if invite.is_accepted == False %}
                 <div class="col-md-8">
                     <div class="card-body">
@@ -21,7 +21,7 @@
     <div class="col-md-8">
              <h1>Accepted:</h1>
                 <ul>
-                  {% for invite in object_list %}
+                  {% for invite in invites_for_user %}
                         {% if invite.is_accepted == True  %}
                             <h5 class="card-title">From:{{ invite.sender }}</a>, to this event: {{ invite.event }}</h5>
                         {% endif %}

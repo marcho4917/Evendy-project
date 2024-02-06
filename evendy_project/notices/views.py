@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-from django.views.generic.list import ListView
 from .models import Notice, Invitation
 from evendy.models import Profile, Event, UserPlannedEvent, EventCouple
 from django.contrib.contenttypes.models import ContentType
@@ -11,12 +10,11 @@ def notices_list(request):
 
     return render(request, 'notices/notices_list.html', {'notices_for_user': notices_for_user})
 
-class InvitesListView(ListView):
-    model = Invitation
-    template_name = 'notices/user_invites.html'
 
-    def get_queryset(self):
-        return Invitation.objects.filter(recipient=self.request.user.profile)
+def invites_list(request):
+    invites_for_user = Invitation.objects.filter(recipient=request.user.profile)
+
+    return render(request, 'notices/user_invites.html', {'invites_for_user': invites_for_user})
 
 
 def send_invite(request, event_id, profile_id):
@@ -65,7 +63,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
 
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 
-            Invitation.objects.filter(sender=sender, event=event).exclude(id=invitation).delete()
+            Invitation.objects.filter(sender=sender, event=event).exclude(id=invitation.id).delete()
 
             user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
             content_type = ContentType.objects.get(app_label="notices", model="invitation")
