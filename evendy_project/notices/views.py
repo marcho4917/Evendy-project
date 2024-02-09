@@ -57,9 +57,14 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             invitation.save()
             sender = invitation.sender
 
-            event_couple = EventCouple.objects.create(event=event)
-            event_couple.profiles.add(sender, recipient)
-            event_couple.save()
+            new_event_couple = EventCouple.objects.create(
+                event=event,
+                # profiles=(sender, recipient))
+            )
+            new_event_couple.profiles.add(sender, recipient)
+            new_event_couple.save()
+
+            print(new_event_couple)
 
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 

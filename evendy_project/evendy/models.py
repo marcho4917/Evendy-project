@@ -66,7 +66,7 @@ class Event(models.Model):
 
 class EventCouple(models.Model):
     profiles = models.ManyToManyField(Profile)
-    event = models.OneToOneField(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     def clean(self):
         if self.profiles.count() != 2:

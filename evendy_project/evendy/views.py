@@ -40,12 +40,9 @@ def profile(request):
 
 def event_details(request, event_id):
     event = Event.objects.get(pk=event_id)
-    user = request.user
+    invitations = Invitation.objects.filter(event=event)
 
-    sender_profile = user.profile
-    invite_exists = Invitation.objects.filter(sender=sender_profile, event=event).exists()
-
-    return render(request, 'evendy/event_details.html', {'event': event, 'invite_exists': invite_exists})
+    return render(request, 'evendy/event_details.html', {'event': event, 'invitations': invitations})
 
 
 def add_or_remove_user_from_seekers(request, event_id):
