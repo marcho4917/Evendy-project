@@ -26,6 +26,7 @@ def events_list(request):
                 print(url_16_9)
 
             event_instance, created = Event.objects.get_or_create(
+                defaults={},
                 title=title,
                 date=date,
                 time=time,
