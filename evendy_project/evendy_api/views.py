@@ -23,10 +23,10 @@ def events_list(request):
         for image in images:
             if image.get('ratio') == '16_9':
                 url_16_9 = image.get('url')
-                print(url_16_9)
 
             event_instance, created = Event.objects.get_or_create(
                 defaults={},
+                #ma sprawdzac  po konkretnych wartosciah np jesli jest juz title place i  time to nie tworzy tylko zrob get
                 title=title,
                 date=date,
                 time=time,

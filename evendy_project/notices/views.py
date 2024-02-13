@@ -23,24 +23,29 @@ def send_invite(request, event_id, profile_id):
         sender = request.user.profile
         recipient = Profile.objects.get(pk=profile_id)
 
-        invitation = Invitation.objects.create(
-                sender=sender,
-                recipient=recipient,
-                event=event
-            )
+        check_if_invitation_exists = Invitation.objects.filter(sender=sender, recipient=recipient, event=event).exists()
 
-        content_type = ContentType.objects.get(app_label="notices", model="invitation")
-        content_id = invitation.id
-        message = f'{sender.user.username} sent you invitation to: {event.title}'
+        if check_if_invitation_exists:
+            messages.warning(request, "Invitation already sent!")
+        else:
+            invitation = Invitation.objects.create(
+                    sender=sender,
+                    recipient=recipient,
+                    event=event
+                )
 
-        Notice.objects.create(
-                recipient=recipient,
-                content_type=content_type,
-                content_id=content_id,
-                content_text=message
-            )
+            content_type = ContentType.objects.get(app_label="notices", model="invitation")
+            content_id = invitation.id
+            message = f'{sender.user.username} sent you invitation to: {event.title}'
 
-        messages.success(request, f"You just send an invitation!")
+            Notice.objects.create(
+                    recipient=recipient,
+                    content_type=content_type,
+                    content_id=content_id,
+                    content_text=message
+                )
+
+            messages.success(request, f"You just send an invitation!")
     return redirect('event_details', event_id)
 
 
@@ -57,14 +62,9 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             invitation.save()
             sender = invitation.sender
 
-            new_event_couple = EventCouple.objects.create(
-                event=event,
-                # profiles=(sender, recipient))
-            )
+            new_event_couple = EventCouple.objects.create(event=event)
             new_event_couple.profiles.add(sender, recipient)
             new_event_couple.save()
-
-            print(new_event_couple)
 
             event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
 
@@ -100,4 +100,19 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
     return redirect('invites_list')
 
 
+def cancel_going_out_together(request, invite_id, profile_id, event_id):
+    if request.method == 'POST':
+        invitation = Invitation.objects.get(pk=invite_id)
+        recipient = Profile.objects.get(pk=profile_id)
+        event = Event.objects.get(pk=event_id)
+        logged_user = request.user.profile
+
+        event_couple_to_delete = EventCouple.objects.filter(event=event, profiles=logged_user).filter(profiles=recipient)
+        event_couple_to_delete.delete()
+
+        invitation.delete()
+
+        event.attendees_looking_for_company.add(recipient)
+
+    return redirect('invites_list')
 

@@ -24,6 +24,10 @@
                   {% for invite in invites_for_user %}
                         {% if invite.is_accepted == True  %}
                             <h5 class="card-title">From:{{ invite.sender }}</a>, to this event: {{ invite.event }}</h5>
+                            <form method="POST" action="{% url 'cancel_going_out_together' invite.id invite.sender.id invite.event.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Cancel going out together</button>
+                            </form>
                         {% endif %}
                     {% endfor %}
                 </ul>
