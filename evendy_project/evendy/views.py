@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Event, Profile, UserPlannedEvent
+from .models import Event, Profile, UserPlannedEvent, EventCouple
 from notices.models import Invitation
 from django.contrib import messages
 
@@ -52,7 +52,8 @@ def add_or_remove_user_from_seekers(request, event_id):
 
         if request.user.is_authenticated:
             if action == 'add':
-                if Invitation.objects.filter(recipient=request.user.profile, event=event, is_accepted=True):
+
+                if Invitation.objects.filter(recipient=request.user.profile, event=event, is_accepted=True).exists() or Invitation.objects.filter(sender=request.user.profile, event=event, is_accepted=True).exists():
                     messages.warning(request, f"You have already buddy for this event!")
                 else:
                     UserPlannedEvent.objects.create(profile=request.user.profile, event=event)
