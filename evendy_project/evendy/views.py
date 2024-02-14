@@ -52,7 +52,6 @@ def add_or_remove_user_from_seekers(request, event_id):
 
         if request.user.is_authenticated:
             if action == 'add':
-
                 if Invitation.objects.filter(recipient=request.user.profile, event=event, is_accepted=True).exists() or Invitation.objects.filter(sender=request.user.profile, event=event, is_accepted=True).exists():
                     messages.warning(request, f"You have already buddy for this event!")
                 else:
