@@ -1,4 +1,5 @@
 {% load static %}
+{% load evendy_custom_tags %}
 {% load bootstrap_icons %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +12,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'evendy/base.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
     {% if title %}
         <title>Evendy - {{ title }}</title>
     {% else %}
@@ -30,9 +33,14 @@
                 {% if user.is_authenticated %}
                     <a class="nav-item nav-link" href="{% url 'profile' %}">My Profile</a>
                     <a class="nav-item nav-link" href="{% url 'show_my_events' %}">My Events</a>
-                    {% bs_icon 'alarm' %}
-                    <a class="nav-item nav-link" href="{% url 'notices_list' %}">My Notices</a>
-                <a class="nav-item nav-link" href="{% url 'invites_list' %}">My Invites</a>
+                    {% if request.user.profile|has_unread_notif %}
+                        <a class="nav-item nav-link" href="{% url 'notices_list' %}">My Notices</a>
+                        <i class="fas fa-bell text-danger"></i>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'notices_list' %}">My Notices</a>
+                        <i class="fas fa-bell text-muted"></i>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="{% url 'invites_list' %}">My Invites</a>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn-link btn">Logout</button>

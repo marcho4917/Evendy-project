@@ -12,10 +12,6 @@ class Invitation(models.Model):
     is_accepted = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
 
-    # def clean(self):
-    #     if Invitation.objects.filter(recipient=user.profile, event=event, is_accepted=True):
-    #         raise ValidationError('asddDAdADadAD')
-
 
 class Notice(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
@@ -24,4 +20,5 @@ class Notice(models.Model):
     recipient = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='notice_recipient', null=True)
     content_text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
+    is_read = models.BooleanField('Is read?', default=False)
 

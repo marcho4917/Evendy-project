@@ -8,6 +8,8 @@ from django.contrib import messages
 def notices_list(request):
     notices_for_user = Notice.objects.filter(recipient=request.user.profile)
 
+    notices_for_user.update(is_read=True)
+
     return render(request, 'notices/notices_list.html', {'notices_for_user': notices_for_user})
 
 
@@ -86,7 +88,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
         elif action == 'decline':
             invitation.delete()
 
-            #send notice to invitation sender
+            #send notice
             content_type = ContentType.objects.get(app_label="notices", model="invitation")
             content_id = invitation.id
             message = f'{request.user.profile}, decline your invitation to: {event.title}'
@@ -110,6 +112,18 @@ def cancel_going_out_together(request, invite_id, profile_id, event_id):
 
         event_couple_to_delete = EventCouple.objects.filter(event=event, profiles=logged_user).filter(profiles=recipient)
         event_couple_to_delete.delete()
+
+        # send notice
+        content_type = ContentType.objects.get(app_label="notices", model="invitation")
+        content_id = invitation.id
+        message = f'Sorry, but {request.user.profile}, cancel going out with you to: {event.title}'
+
+        Notice.objects.create(
+            recipient=recipient,
+            content_type=content_type,
+            content_id=content_id,
+            content_text=message
+        )
 
         invitation.delete()
 
