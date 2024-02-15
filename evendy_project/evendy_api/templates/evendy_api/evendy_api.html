@@ -5,25 +5,19 @@
         <input class="form-control me-2" type="search" placeholder="Search Events" name="searched"  aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-<div class="row">
+<div class="row pt-5 pb-5">
   {% for event in page_obj %}
-      <div class="col-md-6 mb-4">
-      <div class="card" style="width: 100%;">
-        <div class="row g-0">
-          <div class="col-md-4 d-flex justify-content-center align-items-center">
-            <img src="{{ event.image }}" class="img-fluid rounded-start object-fit-cover" style="max-height: 200px;" alt="event photo">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ event.title }}</h5>
-              <p class="card-text">Date:{{ event.date }}</p>
-              <p class="card-text">Time:{{ event.time }}</p>
-              <p class="card-text">Place: {{ event.place }}</p>
-              <a href="{% url 'event_details' event.id %}" class="btn btn-outline-dark mt-auto">Show more</a>
-            </div>
-          </div>
+    <div class="col-md-3 mb-4">
+        <div class="card-container">
+      <div class="card custom-card" style="width: 100%">
+    <img class="card-img-top" src="{{ event.image }}" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.date }}, {{ event.place }}</p>
+        <a href="{% url 'event_details' event.id %}" class="btn show-more-btn btn-outline-dark mt-auto">Show more</a>
+  </div>
+</div>
         </div>
-      </div>
     </div>
   {% endfor %}
 </div>

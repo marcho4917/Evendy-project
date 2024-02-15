@@ -48,7 +48,7 @@
                 <li class="nav-item">
                     <form method="POST" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button class="btn btn-success text-dark my-2 my-sm-0" type="submit">Logout</button>
+                        <button class="btn btn-success text-light my-2 my-sm-0" type="submit">Logout</button>
                     </form>
                 </li>
                 {% else %}
@@ -56,7 +56,7 @@
                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link register btn btn-success text-dark" href="{% url 'register' %}">Register</a>
+                    <a class="nav-link register btn btn-success text-light" href="{% url 'register' %}">Register</a>
                 </li>
                 {% endif %}
             </ul>

@@ -40,3 +40,27 @@ body {
     border-radius:30px;
 }
 
+.custom-card{
+    height: 100%;
+}
+
+.card-container {
+    height: 350px;
+    position: relative;
+}
+
+.show-more-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+body > main > div > div > div:nth-child(2) > form > button{
+    background: #00BF85;
+    font-weight: 600;
+    border-radius: 30px;
+    width: 250px;
+}
+

@@ -46,7 +46,7 @@ def events_list(request):
 
                 all_events.append(event_instance)
 
-    paginator = Paginator(all_events, 10)
+    paginator = Paginator(all_events, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
