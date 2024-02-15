@@ -1,9 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: pink;
-    color: #ff0000;
+    padding-top: 100px;
 }
 
-
-.text-purple {
-    color: #9370DB;
+.navbar{
+    background: #131313;
+    padding: 1rem 8rem;
 }
+
+.navbar .navbar-brand{
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+#navbarSupportedContent > ul > li:nth-child(n) > a{
+    color: #fff;
+    size: 1.1rem;
+    padding: 0.4rem 0.8rem;
+}
+
+#navbarSupportedContent > ul > li:nth-child(n) > a:hover{
+    color: #00BF85;
+}
+
+#navbarSupportedContent > ul > li:nth-child(6) > form > button{
+    background: #00BF85;
+    font-weight: 600;
+    border-radius: 30px;
+}
+
+#navbarSupportedContent > ul > li:nth-child(3) > a.register{
+    background: #00BF85;
+    font-weight: 600;
+    border-radius:30px;
+}
+
