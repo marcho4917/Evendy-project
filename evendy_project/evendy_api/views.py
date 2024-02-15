@@ -11,7 +11,8 @@ def events_list(request):
 
     all_events = []
 
-    total_pages = events_data['page']['totalPages']
+    total_pages = 18
+    # total_pages = events_data['page']['totalPages']
 
     for page_number in range(total_pages):
         response = requests.get(url, {'page': page_number})
