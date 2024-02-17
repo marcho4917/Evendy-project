@@ -5,19 +5,21 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
+    phone_number = forms.CharField(max_length=12)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2', 'phone_number']
 
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    phone_number = forms.CharField(max_length=12)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'date_of_birth']
+        fields = ['username', 'email', 'date_of_birth', 'phone_number']
 
 
 class ProfileUpdateForm(forms.ModelForm):

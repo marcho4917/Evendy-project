@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 from datetime import date
 from PIL import Image
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(null=True, blank=True)
     profile_image = models.ImageField(default='profile_pics/profile_default.jpg', upload_to='profile_pics')
     description = models.TextField(blank=True)
+    phone_number = models.CharField(max_length=12)
     user_planned_events = models.ManyToManyField('Event', through='UserPlannedEvent')
     user_notices = models.ManyToManyField('notices.Notice', related_name='user_notices', blank=True)
     user_invitations = models.ManyToManyField('notices.Invitation', related_name='user_invitations', blank=True)

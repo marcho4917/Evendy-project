@@ -81,7 +81,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
             content_type = ContentType.objects.get(app_label="notices", model="invitation")
             content_id = invitation.id
-            message = f'{request.user.profile}, accepted your invitation to: {event.title}'
+            message = f'{request.user.profile}, accepted your invitation to: {event.title}, visit profile to see contact details'
 
             Notice.objects.create(
                 recipient=recipient,
