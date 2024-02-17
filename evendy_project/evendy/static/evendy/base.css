@@ -31,36 +31,113 @@ body {
 #navbarSupportedContent > ul > li:nth-child(6) > form > button{
     background: #00BF85;
     font-weight: 600;
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 #navbarSupportedContent > ul > li:nth-child(3) > a.register{
     background: #00BF85;
     font-weight: 600;
-    border-radius:30px;
+    border-radius: 15px;
 }
 
 .custom-card{
     height: 100%;
 }
 
-.card-container {
+.event-card {
     height: 350px;
     position: relative;
 }
 
 .show-more-btn {
+    background: #00BF85;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 15px;
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
 }
 
+.btn-add-user-or-view-user {
+    background: #6495ED;
+    color: #fff;
+}
+
+.btn-send-invitation {
+    background: #00BF85;
+    color: #fff;
+}
+
+
+.show-more-btn:hover {
+    background: #fff;
+    color: #00BF85;
+    border-color: #00BF85;
+}
 
 body > main > div > div > div:nth-child(2) > form > button{
     background: #00BF85;
     font-weight: 600;
-    border-radius: 30px;
+    border-radius: 15px;
     width: 250px;
 }
 
+
+.custom-button{
+    color: #fff;
+    background: #00BF85;
+    font-weight: 600;
+    border-radius: 15px;
+}
+
+.custom-button:hover {
+    color: #fff;
+}
+
+
+.has-notification {
+    position: relative;
+}
+
+.has-notification .fas.fa-bell {
+    position: absolute;
+    top: 68%;
+    transform: translateY(-50%);
+    left: 6%;
+    rotate: -18deg;
+}
+
+.profile-container .profile-card{
+    background: #00BF85;
+    color: #fff;
+}
+
+.event-detail-img {
+    height: 100%;
+}
+
+.card-container.event-profile-card {
+    text-align: center;
+    height: 100%;
+}
+
+img.card-img-top.profile-card-img {
+    width: 50%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.card.img-profile-card {
+    display: block;
+    height: 350px;
+}
+
+
+div.row.pt-5.pb-5.scrollable-profiles-list {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

@@ -1,14 +1,30 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
- <h1>My notifications:</h1>
-     <ul>
-      {% for notice in notices_for_user %}
-        <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">{{ notice.content_text}}</h5>
-                    <p class="card-text">{{ notice.created_at }}</p>
-                </div>
-        </div>
-      {% endfor %}
-    </ul>
+{% if page_obj|length == 0 %}
+<h2>You don't have any notifications to display</h2>
+{% else %}
+<h1>My notifications:</h1>
+<div class="col-md-12">
+    {% for notice in page_obj %}
+    <p class="list-group-item">{{ notice.content_text}}, {{ notice.created_at }}</p>
+    {% endfor %}
+</div>
+<div class="text-center pt-2">
+    {% if page_obj.has_previous %}
+    <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
+    <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+    <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    <a class="btn btn-outline-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+    {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number}}">Next</a>
+    <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+    {% endif %}
+</div>
+{% endif %}
 {% endblock %}

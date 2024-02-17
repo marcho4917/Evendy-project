@@ -1,51 +1,62 @@
 {% extends 'evendy/base.html' %}
 {% load evendy_custom_tags %}
 {% block content %}
-        <div class="container-fluid">
-            <img src="{{ event.image }}" class="card-img-top" alt="event_image" style="max-height: 200px;">
-            <div class="card-body">
-                <h5 class="card-title">{{ event.title }}</h5>
-                <p class="card-text">{{ event.place }}</p>
-                <p class="card-text">{{ event.date }}</p>
-                <p class="card-text">{{ event.time }}</p>
-                <form method="POST" action="{% url 'add_or_remove_user_from_seekers' event.id %}">
-                    {% csrf_token %}
-                    {% if user.profile in event.attendees_looking_for_company.all %}
-                        <button type="submit" class="btn btn-danger" name="action" value="remove">Delete me from this event</button>
-                    {% else %}
-                        <button type="submit" class="btn btn-primary" name="action" value="add">I'm looking for buddy for this event</button>
-                    {% endif %}
-                </form>
-                <div class="container">
-    <h5>Who is looking for a buddy for this event:</h5>
+<div class="card mb-3 shadow">
     <div class="row">
-        {% for profile in event.attendees_looking_for_company.all %}
-    <div class="col-md-4 mb-3">
-        <div class="card">
-            <img class="card-img-top rounded-circle profile-img" src="{{ profile.profile_image.url }}" alt="profile_image" style="max-width: 50px;">
+        <div class="col-md-4">
+            <img src="{{ event.image }}" class="card-img-top event-detail-img" alt="event_image">
+        </div>
+        <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{ profile.user.username }}</h5>
-                <p class="card-text">{{ profile.calculated_age }}</p>
-                {% if user.is_authenticated and user.profile != profile %}
-                    <form method="POST" action="{% url 'profile_details' profile.user.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-block btn-sm mb-2">View profile</button>
-                    </form>
-                    <button type="submit" class="btn btn-info btn-block btn-sm mb-2">Start chat</button>
-                    <form method="POST" action="{% url 'send_invite' event.id profile.id %}">
-                        {% csrf_token %}
-                        <button class="btn btn-success btn-block btn-sm">
-                            Send invitation
-                        </button>
-                    </form>
-                {% endif %}
+                <h2 class="card-title">{{ event.title }}</h2>
+                <p class="card-text">Where: {{ event.place }}</p>
+                <p class="card-text">Date: {{ event.date }}</p>
+                <p class="card-text">Time: {{ event.time }}</p>
             </div>
         </div>
-    </div>
-{% endfor %}
-
     </div>
 </div>
+<form method="POST" action="{% url 'add_or_remove_user_from_seekers' event.id %}">
+    {% csrf_token %}
+    {% if user.profile not in event.attendees_looking_for_company.all %}
+    <button type="submit" class="btn btn-add-user-or-view-user" name="action" value="add">I'm looking for buddy for this event
+    </button>
+    {% endif %}
+</form>
+<h4 class="pt-3">Find you're buddy for this event:</h4>
+<div class="row pt-5 pb-5 scrollable-profiles-list">
+    {% for profile in event.attendees_looking_for_company.all %}
+    <div class="col-md-3 mb-4">
+        <div class="card-container event-profile-card">
+            <div class="card img-profile-card shadow">
+                <img class="card-img-top profile-card-img mt-2 mb-2" src="{{ profile.profile_image.url }}"
+                     alt="Card image cap">
+                <div class="card-body">
+                    {% if user.is_authenticated and user.profile == profile %}
+                    <h5 class="card-title">You</h5>
+                    <form method="POST" action="{% url 'add_or_remove_user_from_seekers' event.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" name="action" value="remove">Delete me from this
+                            event
+                        </button>
+                    </form>
+                    {% else %}
+                    <h5 class="card-title">{{ profile.user.username }}</h5>
+                    {% endif %}
+                    {% if user.is_authenticated and user.profile != profile %}
+                    <form method="POST" action="{% url 'profile_details' profile.user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-add-user-or-view-user btn-block btn-sm mb-2">View profile</button>
+                    </form>
+                    <form method="POST" action="{% url 'send_invite' event.id profile.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-send-invitation btn-block btn-sm">Send invitation</button>
+                    </form>
+                    {% endif %}
+                </div>
             </div>
         </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

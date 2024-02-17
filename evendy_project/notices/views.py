@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from .models import Notice, Invitation
 from evendy.models import Profile, Event, UserPlannedEvent, EventCouple
@@ -10,12 +11,16 @@ def notices_list(request):
 
     notices_for_user.update(is_read=True)
 
-    return render(request, 'notices/notices_list.html', {'notices_for_user': notices_for_user})
+    paginator = Paginator(notices_for_user, 14)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'notices/notices_list.html', {'page_obj': page_obj})
 
 
 def invites_list(request):
     invites_for_user = Invitation.objects.filter(recipient=request.user.profile)
-
+    print(invites_for_user)
     return render(request, 'notices/user_invites.html', {'invites_for_user': invites_for_user})
 
 
@@ -47,7 +52,7 @@ def send_invite(request, event_id, profile_id):
                     content_text=message
                 )
 
-            messages.success(request, f"You just send an invitation!")
+            messages.success(request, f"You just sent an invitation!")
     return redirect('event_details', event_id)
 
 
@@ -76,7 +81,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
             content_type = ContentType.objects.get(app_label="notices", model="invitation")
             content_id = invitation.id
-            message = f'{request.user.profile}, accept your invitation to: {event.title}'
+            message = f'{request.user.profile}, accepted your invitation to: {event.title}'
 
             Notice.objects.create(
                 recipient=recipient,
@@ -116,7 +121,7 @@ def cancel_going_out_together(request, invite_id, profile_id, event_id):
         # send notice
         content_type = ContentType.objects.get(app_label="notices", model="invitation")
         content_id = invitation.id
-        message = f'Sorry, but {request.user.profile}, cancel going out with you to: {event.title}'
+        message = f'Sorry, but {request.user.profile}, canceled going out with you to: {event.title}'
 
         Notice.objects.create(
             recipient=recipient,

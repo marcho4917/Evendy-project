@@ -77,8 +77,9 @@ def search_events(request):
 
 def profile_details(request, user_id):
     profile = Profile.objects.get(user=user_id)
+    profile_planned_events = profile.user_planned_events.all()
 
-    return render(request, 'evendy/profile_details.html', {'profile': profile})
+    return render(request, 'evendy/profile_details.html', {'profile': profile, 'profile_planned_events': profile_planned_events})
 
 
 def show_my_events(request):

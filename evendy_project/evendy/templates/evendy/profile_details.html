@@ -1,13 +1,32 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
-<div class="content-section">
-  <div class="media">
-    <img class="rounded-circle account-img" src="{{ profile.profile_image.url }}" alt="profile_pic">
-    <div class="media-body">
-        <h2 class="account-heading">{{ profile.user.username }}</h2>
-        <p>Age: {{ profile.calculated_age }}</p>
-       <p>About: {{ profile.description }}</p>
+<div class="card mb-3 shadow">
+    <div class="row no-gutters">
+        <div class="col-md-2">
+            <img class="account-img" src="{{ profile.profile_image.url }}" alt="profile_pic">
+        </div>
+        <div class="col-md-10 pl-4">
+            <div class="card-body">
+                <h2 class="account-heading">{{ profile.user.username }}</h2>
+                <p>Age: {{ profile.calculated_age }}</p>
+                <p>About: {{ profile.description }}</p>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+<h3 class="pt-4 pb-4">{{ profile.user.username }} is also looking buddies for these events:</h3>
+<div class="row">
+    {% for event in profile_planned_events %}
+    <div class="col-md-3 mb-4">
+        <div class="card event-card">
+            <img class="card-img users-events-img" src="{{ event.image }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">{{ event.date }}, {{ event.place }}</p>
+                <a href="{% url 'event_details' event.id %}" class="btn show-more-btn">See more</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

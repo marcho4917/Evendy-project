@@ -32,7 +32,6 @@ def events_list(request):
                 for image in images:
                     if image.get('ratio') == '16_9':
                         url_16_9 = image.get('url')
-                        break
 
                 event_instance, created = Event.objects.get_or_create(
                     title=title,
@@ -45,14 +44,11 @@ def events_list(request):
                     )
 
                 all_events.append(event_instance)
-
     paginator = Paginator(all_events, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'evendy_api/evendy_api.html', {'page_obj': page_obj})
-
-
 
 
 

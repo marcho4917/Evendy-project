@@ -1,35 +1,52 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
- <h1>My invites:</h1>
-     <ul>
-             {% for invite in invites_for_user %}
-             {% if invite.is_accepted == False %}
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">From: <a href="{% url 'profile_details' invite.sender.user.id %}">{{ invite.sender }}</a>, to this event: {{ invite.event }}</h5>
-                        <p class="card-text">{{ invite.created_at }}</p>
-                        <form method="POST" action="{% url 'accept_or_decline_invitation' invite.id invite.sender.id invite.event.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary" name="action" value="accept">Accept</button>
-                            <button type="submit" class="btn btn-danger" name="action" value="decline">Decline</button>
-                        </form>
-                    </div>
-                </div>
-             {% endif %}
-          {% endfor %}
-    </ul>
-    <div class="col-md-8">
-             <h1>Accepted:</h1>
-                <ul>
-                  {% for invite in invites_for_user %}
-                        {% if invite.is_accepted == True  %}
-                            <h5 class="card-title">From:{{ invite.sender }}</a>, to this event: {{ invite.event }}</h5>
-                            <form method="POST" action="{% url 'cancel_going_out_together' invite.id invite.sender.id invite.event.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Cancel going out together</button>
-                            </form>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h3 class="card-title">Pending Invites:</h3>
+            </div>
+            {% for invite in invites_for_user %}
+            {% if invite.is_accepted == False %}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <h5 class="card-title">From: <a href="{% url 'profile_details' invite.sender.user.id %}">{{
+                        invite.sender }}</a></h5>
+                    <p class="card-text">{{ invite.event }}</p>
+                    <p class="card-text">Sent at: {{ invite.created_at }}</p>
+                    <form method="POST" action="{% url 'accept_or_decline_invitation' invite.id invite.sender.id invite.event.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" name="action" value="accept">Accept</button>
+                        <button type="submit" class="btn btn-danger" name="action" value="decline">Decline</button>
+                    </form>
+                </li>
+            </ul>
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h3 class="card-title">Accepted Invites:</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for invite in invites_for_user %}
+                {% if invite.is_accepted %}
+                <li class="list-group-item">
+                    <h5 class="card-title">From: {{ invite.sender }}</h5>
+                    <p>{{ invite.event }}</p>
+                    <p>Event date: {{ invite.event.date }}</p>
+                    <form method="POST"
+                          action="{% url 'cancel_going_out_together' invite.id invite.sender.id invite.event.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Cancel going out together</button>
+                    </form>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}

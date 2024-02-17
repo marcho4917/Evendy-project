@@ -1,12 +1,18 @@
 {% extends 'evendy/base.html' %}
 {% block content %}
-<p>Here you can see the events for which you are looking for buddies</p>
- <h1>My events:</h1>
-     <ul>
-      {% for planned_event in planned_events %}
-        <li>
-          <a href="{% url 'event_details' planned_event.id %}">{{ planned_event.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
+<h1 class="pb-4">I'm looking buddies for this events:</h1>
+<div class="row">
+    {% for event in planned_events %}
+    <div class="col-md-3 mb-4">
+        <div class="card event-card">
+            <img class="card-img users-events-img" src="{{ event.image }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">{{ event.date }}, {{ event.place }}</p>
+                <a href="{% url 'event_details' event.id %}" class="btn show-more-btn">See more</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

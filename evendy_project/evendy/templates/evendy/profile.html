@@ -1,34 +1,38 @@
 {% extends 'evendy/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="row">
-    <div class="col-md-4">
-        <div class="content-section">
-            <img class="rounded-circle account-img" src="{{ user.profile.profile_image.url }}" alt="profile_pic">
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="content-section">
-            <div class="media">
-                <div class="media-body">
-                    <h2 class="account-heading">{{ user.username }}</h2>
-                    <p>Age: {{ user.profile.calculated_age }}</p>
-                    {% if user.profile.description %}
+<div class="container profile-container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10 mit-5">
+            <div class="row">
+                <div class="col-sm-4 profile-card rounded-left">
+                    <div class="card-block text-center pt-4">
+                        <img class="account-img shadow rounded" src="{{ user.profile.profile_image.url }}" alt="profile_pic">
+                        <h2 class="account-heading">{{ user.username }}</h2>
+                        <p>You're age: {{ user.profile.calculated_age }}</p>
+                        {% if user.profile.description %}
                         <p>About you: {{ user.profile.description }}</p>
-                    {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-8 bg-white rounded-right">
+                    <h3 class="mt-3 text-center">Information about you</h3>
+                    <div class="row">
+                        <div class="col">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    {{ user_form|crispy }}
+                                    {{ profile_form|crispy }}
+                                </fieldset>
+                                <div class="form-group">
+                                    <button class="btn custom-button" type="submit">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Profile info</legend>
-                    {{ user_form|crispy }}
-                    {{ profile_form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Update</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
