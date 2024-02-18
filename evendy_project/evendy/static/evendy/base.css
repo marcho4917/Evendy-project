@@ -141,3 +141,8 @@ div.row.pt-5.pb-5.scrollable-profiles-list {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+#id_description {
+    height: 150px;
+}
+
