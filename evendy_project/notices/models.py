@@ -10,6 +10,7 @@ class Invitation(models.Model):
     recipient = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inv_recipient')
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     is_accepted = models.BooleanField(default=False)
+    is_canceled = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
 
 
