@@ -7,7 +7,7 @@
         <div class="card event-card">
             <img class="card-img users-events-img" src="{{ event.image }}" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title">{{ event.title }}</h5>
+                <h5 class="card-title">{{ event.title|truncatechars:20 }}</h5>
                 <p class="card-text">{{ event.date }}, {{ event.place }}</p>
                 <a href="{% url 'event_details' event.id %}" class="btn show-more-btn">See more</a>
             </div>
