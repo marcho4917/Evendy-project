@@ -40,6 +40,8 @@ def send_invite(request, event_id, profile_id):
             messages.warning(request, 'This user also sent you an invitation to this event, accept it in "My Invites"')
         elif not sender.phone_number:
             messages.warning(request, 'If yot want to send invitation, you have to add youre phone number first')
+        elif sender not in event.attendees_looking_for_company.all():
+            messages.warning(request, 'If you want to send invitations you have to be signed in this event')
         else:
             invitation = Invitation.objects.create(
                     sender=sender,

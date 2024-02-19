@@ -34,6 +34,7 @@
                 {% if invite.is_accepted %}
                 <li class="list-group-item">
                     <h5 class="card-title">From:<a href="{% url 'profile_details' invite.sender.user.id %}"> {{ invite.sender }}</a></h5>
+                    <h6>Phone number: {{ invite.sender.phone_number }}</h6>
                     <p>{{ invite.event }}</p>
                     <p>Event date: {{ invite.event.date }}</p>
                     <form method="POST"
@@ -62,8 +63,6 @@
                     <p>Event date: {{ invite.event.date }}</p>
                     {% if invite.is_accepted == True %}
                         <p class="text-success">Status: Accepted</p>
-                    {% elif invite.is_canceled == True %}
-                        <p>Status:<span class="text-danger">Canceled</span></p>
                     {% else %}
                         <p>Status: <span class="text-primary">Waiting</span></p>
                     {% endif %}

@@ -59,7 +59,7 @@ def add_or_remove_user_from_seekers(request, event_id):
                 else:
                     UserPlannedEvent.objects.create(profile=request.user.profile, event=event)
                     event.attendees_looking_for_company.add(request.user.profile)
-                    messages.success(request, f"Ready, now just wait for your buddy!")
+                    messages.success(request, f"Ready, now just wait for your buddy or send invitations!")
             elif action == 'remove':
                 UserPlannedEvent.objects.filter(profile=request.user.profile, event=event).delete()
                 event.attendees_looking_for_company.remove(request.user.profile)
