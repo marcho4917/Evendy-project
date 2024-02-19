@@ -11,27 +11,28 @@ def events_list(request):
 
     all_events = []
 
-    total_pages = 1
+    total_pages = 2
     # total_pages = events_data['page']['totalPages']
 
     for page_number in range(total_pages):
         response = requests.get(url, {'page': page_number})
         events_data = response.json()
 
-        for event_data in events_data['_embedded']['events']:
-            if event_data['dates']['status']['code'] != 'cancelled':
-                title = event_data['name']
-                date = event_data['dates']['start']['localDate']
-                time = event_data['dates']['start']['localTime']
+        for event_data in events_data.get('_embedded', {}).get('events', []):
+            if event_data.get('dates', {}).get('status', {}).get('code') != 'cancelled':
+                title = event_data.get('name', 'No data')
+                date = event_data.get('dates', {}).get('start', {}).get('localDate', 'No data')
+                time = event_data.get('dates', {}).get('start', {}).get('localTime', 'No data')
 
-                for venue_data in event_data['_embedded']['venues']:
-                    place = venue_data['city']['name']
+                place = 'no place data'
+                for venue_data in event_data.get('_embedded', {}).get('venues', []):
+                    place = venue_data.get('city').get('name')
 
                 images = event_data['images']
 
                 for image in images:
-                    if image.get('ratio') == '16_9':
-                        url_16_9 = image.get('url')
+                    if image.get('ratio') == '4_3':
+                        url_4_3 = image.get('url')
 
                 event_instance, created = Event.objects.get_or_create(
                     title=title,
@@ -39,12 +40,13 @@ def events_list(request):
                     time=time,
                     defaults={
                         'place': place,
-                        'image': url_16_9
+                        'image': url_4_3
                         }
                     )
 
                 all_events.append(event_instance)
-    paginator = Paginator(all_events, 12)
+
+    paginator = Paginator(all_events, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
