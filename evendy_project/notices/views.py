@@ -31,7 +31,8 @@ def send_invite(request, event_id, profile_id):
         sender = request.user.profile
         recipient = Profile.objects.get(pk=profile_id)
 
-        if Invitation.objects.filter(sender=sender, event=event, is_accepted=True).exists():
+        if Invitation.objects.filter(sender=sender, event=event, is_accepted=True).exists() or \
+                Invitation.objects.filter(recipient=sender, event=event, is_accepted=True).exists():
             messages.error(request, "You have already buddy for this event!")
         elif Invitation.objects.filter(sender=sender, recipient=recipient, event=event).exists():
             messages.error(request, "Invitation already sent!")
