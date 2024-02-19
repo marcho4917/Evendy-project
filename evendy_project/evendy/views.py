@@ -81,15 +81,8 @@ def search_events(request):
 def profile_details(request, user_id):
     profile = Profile.objects.get(user=user_id)
     profile_planned_events = profile.user_planned_events.all()
-    logged_user = request.user.profile
-    check_if_you_are_pair = False
 
-    if EventCouple.objects.filter(profiles__in=[profile, logged_user]).exists():
-        check_if_you_are_pair = True
-
-    print(check_if_you_are_pair)
-
-    return render(request, 'evendy/profile_details.html', {'profile': profile, 'profile_planned_events': profile_planned_events, 'check_if_you_are_pair': check_if_you_are_pair})
+    return render(request, 'evendy/profile_details.html', {'profile': profile, 'profile_planned_events': profile_planned_events})
 
 
 def show_my_events(request):
