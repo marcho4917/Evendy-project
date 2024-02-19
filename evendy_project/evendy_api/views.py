@@ -28,8 +28,8 @@ def events_list(request):
                 for venue_data in event_data.get('_embedded', {}).get('venues', []):
                     place = venue_data.get('city').get('name')
 
-                images = event_data['images']
-
+                images = event_data.get('images', {})
+                url_4_3 = 'no image data'
                 for image in images:
                     if image.get('ratio') == '4_3':
                         url_4_3 = image.get('url')
