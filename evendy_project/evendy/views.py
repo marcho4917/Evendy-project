@@ -53,14 +53,17 @@ def add_or_remove_user_from_seekers(request, event_id):
         if request.user.is_authenticated:
             if action == 'add':
                 if Invitation.objects.filter(recipient=request.user.profile, event=event, is_accepted=True).exists() or Invitation.objects.filter(sender=request.user.profile, event=event, is_accepted=True).exists():
-                    messages.warning(request, f"You have already buddy for this event!")
+                    messages.error(request, f"You have already buddy for this event!")
+                elif not request.user.profile.phone_number:
+                    messages.warning(request, 'If yot want to add yourself to this event, you have to add youre phone number first')
                 else:
                     UserPlannedEvent.objects.create(profile=request.user.profile, event=event)
                     event.attendees_looking_for_company.add(request.user.profile)
-                    messages.success(request, f"Congrats, now just wait for your buddy!")
+                    messages.success(request, f"Ready, now just wait for your buddy!")
             elif action == 'remove':
                 UserPlannedEvent.objects.filter(profile=request.user.profile, event=event).delete()
                 event.attendees_looking_for_company.remove(request.user.profile)
+                Invitation.objects.filter(sender=request.user.profile, event=event).delete()
                 messages.success(request, f"You are no longer looking for a buddy for this event")
         else:
             messages.warning(request, "You have to be logged in.")
@@ -78,13 +81,19 @@ def search_events(request):
 def profile_details(request, user_id):
     profile = Profile.objects.get(user=user_id)
     profile_planned_events = profile.user_planned_events.all()
+    logged_user = request.user.profile
+    check_if_you_are_pair = False
 
-    return render(request, 'evendy/profile_details.html', {'profile': profile, 'profile_planned_events': profile_planned_events})
+    if EventCouple.objects.filter(profiles__in=[profile, logged_user]).exists():
+        check_if_you_are_pair = True
+
+    print(check_if_you_are_pair)
+
+    return render(request, 'evendy/profile_details.html', {'profile': profile, 'profile_planned_events': profile_planned_events, 'check_if_you_are_pair': check_if_you_are_pair})
 
 
 def show_my_events(request):
-    user_profile = request.user.profile
-    planned_events = user_profile.user_planned_events.all()
+    planned_events = request.user.profile.user_planned_events.all()
 
     return render(request, 'evendy/user_events.html', {'planned_events': planned_events})
 
