@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from PIL import Image
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(null=True, blank=True)

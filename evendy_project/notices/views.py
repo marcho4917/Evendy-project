@@ -147,7 +147,6 @@ def cancel_going_out_together(request, invite_id, profile_id, event_id):
         event.attendees_looking_for_company.add(recipient)
         event.attendees_looking_for_company.add(logged_user)
 
-        #dodac tutaj z powrotem event do ktorych szukam buddy
         recipient.user_planned_events.add(event)
         logged_user.user_planned_events.add(event)
 
