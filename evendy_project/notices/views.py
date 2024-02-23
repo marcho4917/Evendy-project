@@ -7,7 +7,7 @@ from django.contrib import messages
 
 
 def notices_list(request):
-    notices_for_user = Notice.objects.filter(recipient=request.user.profile)
+    notices_for_user = Notice.objects.filter(recipient=request.user.profile).order_by('created_at')
 
     notices_for_user.update(is_read=True)
 
