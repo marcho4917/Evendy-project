@@ -21,41 +21,29 @@ Run in the command line:
 
 ### Preview views
 
-<style>
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .image {
-    width: 48%;
-    margin-bottom: 20px;
-  }
-</style>
-
-<div class="container">
-    <div class="image">
+<div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/main_page.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/new_notification_main_view.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/event_with_seekers.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/login.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/logout_view.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/register.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/profile_page.jpg">
     </div>
-    <div class="image">
+    <div class="image" style="width: 48%; margin-bottom: 20px;">
         <img src="evendy_project/views_img/user_invites_view.jpg">
     </div>
 </div>
