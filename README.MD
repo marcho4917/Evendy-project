@@ -21,8 +21,8 @@ Run in the command line:
 
 ### Preview views
 
-<img src="evendy_project/views_img/main_page.jpg">|<img src="evendy_project/views_img/main_page.jpg">
+<img src="evendy_project/views_img/main_page.jpg">Main Page|<img src="evendy_project/views_img/new_notification_main_view.jpg">Login user view
 :-------------------------:|:-------------------------:
-<img src="evendy_project/views_img/main_page.jpg">|<img src="evendy_project/views_img/main_page.jpg">
-<img src="evendy_project/views_img/main_page.jpg">|<img src="evendy_project/views_img/main_page.jpg">
-<img src="evendy_project/views_img/main_page.jpg">|<img src="evendy_project/views_img/main_page.jpg">
+<img src="evendy_project/views_img/event_with_seekers.jpg">Event view|<img src="evendy_project/views_img/login.jpg">Login
+<img src="evendy_project/views_img/logout_view.jpg">Logout|<img src="evendy_project/views_img/register.jpg">Register
+<img src="evendy_project/views_img/profile_page.jpg">Profile view|<img src="evendy_project/views_img/user_invites_view.jpg">Invitations
