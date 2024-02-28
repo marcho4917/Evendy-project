@@ -1,7 +1,8 @@
 
 # Evendy     
 
-This simple app will help you find a companion for any musical event in Germany. You can sign up as a companion seeker or search among the already signed up seekers.
+This simple app will help you find a companion for any musical event in Germany. You can sign up as a companion seeker or search among the already signed up seekers. 
+Send invitations or receive them from others - you can decide for yourself who you will go to the event with.
 The application was written based on the Django framework. The Ticketmaster Discovery API was used to retrieve event data.
 
 
