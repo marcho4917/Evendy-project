@@ -7,7 +7,7 @@ from django.contrib import messages
 
 
 def notices_list(request):
-    notices_for_user = Notice.objects.filter(recipient=request.user.profile).order_by('created_at')
+    notices_for_user = Notice.objects.filter(recipient=request.user.profile).order_by('-created_at')
 
     notices_for_user.update(is_read=True)
 
@@ -68,33 +68,33 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
     if request.method == 'POST':
         invitation = Invitation.objects.get(pk=invite_id)
         action = request.POST.get('action')
-        recipient = Profile.objects.get(pk=profile_id)
+        sender = Profile.objects.get(pk=profile_id)
         event = Event.objects.get(pk=event_id)
-        user_to_delete_from_attendees_looking_for_company = request.user.profile
+        logged_user_and_recipient = request.user.profile
 
         if action == 'accept':
             invitation.is_accepted = True
             invitation.save()
-            sender = invitation.sender
 
             new_event_couple = EventCouple.objects.create(event=event)
-            new_event_couple.profiles.add(sender, recipient)
+            new_event_couple.profiles.add(sender, logged_user_and_recipient)
             new_event_couple.save()
 
-            event.attendees_looking_for_company.remove(user_to_delete_from_attendees_looking_for_company)
-            event.attendees_looking_for_company.remove(recipient)
+            event.attendees_looking_for_company.remove(logged_user_and_recipient)
+            event.attendees_looking_for_company.remove(sender)
 
-            Invitation.objects.filter(event=event, sender=sender).exclude(id=invitation.id).delete()
+            Invitation.objects.filter(sender=sender, event=event, is_accepted=False).delete()
+            Invitation.objects.filter(event=event, sender=request.user.profile, is_accepted=False).exclude(id=invitation.id).delete()
             Invitation.objects.filter(recipient=request.user.profile, event=event).exclude(id=invitation.id).delete()
 
-            user_to_delete_from_attendees_looking_for_company.user_planned_events.remove(event)
-            recipient.user_planned_events.remove(event)
+            logged_user_and_recipient.user_planned_events.remove(event)
+            sender.user_planned_events.remove(event)
             content_type = ContentType.objects.get(app_label="notices", model="invitation")
             content_id = invitation.id
             message = f'{request.user.profile}, accepted your invitation to: {event.title}, visit profile to see contact details'
 
             Notice.objects.create(
-                recipient=recipient,
+                recipient=sender,
                 content_type=content_type,
                 content_id=content_id,
                 content_text=message
@@ -110,7 +110,7 @@ def accept_or_decline_invitation(request, invite_id, profile_id, event_id):
             message = f'{request.user.profile}, decline your invitation to: {event.title}'
 
             Notice.objects.create(
-                recipient=recipient,
+                recipient=sender,
                 content_type=content_type,
                 content_id=content_id,
                 content_text=message
@@ -128,9 +128,6 @@ def cancel_going_out_together(request, invite_id, profile_id, event_id):
 
         event_couple_to_delete = EventCouple.objects.filter(event=event, profiles__in=[recipient, logged_user])
         event_couple_to_delete.delete()
-
-        # event_couple_to_delete = EventCouple.objects.filter(event=event, profiles=logged_user).filter(profiles=recipient)
-        # event_couple_to_delete.delete()
 
         # send notice
         content_type = ContentType.objects.get(app_label="notices", model="invitation")

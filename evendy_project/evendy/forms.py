@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, User
 from django import forms
 from .models import Profile
-import phonenumbers
 
 
 class UserRegisterForm(UserCreationForm):
