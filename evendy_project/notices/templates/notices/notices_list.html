@@ -6,7 +6,11 @@
 <h1>My notifications:</h1>
 <div class="col-md-12 pt-4 pb-4">
     {% for notice in page_obj %}
-    <p class="list-group-item">{{ notice.content_text}}, {{ notice.created_at }}</p>
+    <p class="list-group-item">{{ notice.content_text}} |
+    <small class="text-muted">
+        {{ notice.created_at }}
+    </small>
+        </p>
     {% endfor %}
 </div>
 <div class="text-center">

@@ -63,6 +63,11 @@
                     <p>Event date: {{ invite.event.date }}</p>
                     {% if invite.is_accepted == True %}
                         <p class="text-success">Status: Accepted</p>
+                        <form method="POST"
+                          action="{% url 'cancel_going_out_together' invite.id invite.recipient.id invite.event.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Cancel going out together</button>
+                    </form>
                     {% else %}
                         <p>Status: <span class="text-primary">Waiting</span></p>
                     {% endif %}
