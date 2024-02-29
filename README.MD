@@ -27,3 +27,4 @@ Run in the command line:
 <img src="evendy_project/views_img/event_with_seekers.jpg">Event view|<img src="evendy_project/views_img/login.jpg">Login
 <img src="evendy_project/views_img/logout_view.jpg">Logout|<img src="evendy_project/views_img/register.jpg">Register
 <img src="evendy_project/views_img/profile_page.jpg">Profile view|<img src="evendy_project/views_img/user_invites_view.jpg">Invitations
+<img src="evendy_project/views_img/notifications_view.jpg">Notifications|<img src="evendy_project/views_img/another_user_profile_view.jpg">Another User
