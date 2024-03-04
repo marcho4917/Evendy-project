@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: postgresql_db_for_evendy_app
+    environment:
+      - POSTGRES_DB=evendy_db
+      - POSTGRES_USER=evendy_user
+      - POSTGRES_PASSWORD=evendy_password
+    ports:
+      - "5432:5432"
+  web:
+    image: marcho4917/evendy_web:v1.0
+    build: .
+    container_name: evendy_app
+    environment:
+      - POSTGRES_DB=evendy_db
+      - POSTGRES_USER=evendy_user
+      - POSTGRES_PASSWORD=evendy_password
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

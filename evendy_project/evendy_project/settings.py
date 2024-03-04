@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'evendy_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("POSTGRES_DB"),
-        'USER': env("POSTGRES_USER"),
-        'PASSWORD': env("POSTGRES_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT"),
+        'NAME': 'evendy_db',
+        'USER': 'evendy_user',
+        'PASSWORD': 'evendy_password',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 

@@ -11,8 +11,8 @@ def events_list(request):
 
     all_events = []
 
-    total_pages = 1
-    # total_pages = events_data['page']['totalPages']
+    total_pages = 10
+    # total_pages = events_data['page']['totalPages'] #if you want to see all the results just uncomment this line and comment the line above it
 
     for page_number in range(total_pages):
         response = requests.get(url, {'page': page_number})
